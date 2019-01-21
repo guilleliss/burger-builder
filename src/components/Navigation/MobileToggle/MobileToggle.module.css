@@ -1,0 +1,31 @@
+.MobileToggle {
+	width: 40px;
+	height: 40px;
+	position: relative;
+}
+
+.MobileToggle i,
+.MobileToggle i:after,
+.MobileToggle i:before {
+	position: absolute;
+	width: 100%;
+	height: 4px;
+	background: white;
+	top: calc(50% - 2px);
+}
+
+.MobileToggle i:before {
+	top: -12px;
+	content: '';
+}
+
+.MobileToggle i:after {
+	top: 12px;
+	content: '';
+}
+
+@media (min-width: 500px) {
+	.MobileToggle {
+		display: none;
+	}
+}

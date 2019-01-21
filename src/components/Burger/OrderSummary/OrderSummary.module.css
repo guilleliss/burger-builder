@@ -1,0 +1,11 @@
+.OrderSummary {
+
+}
+
+.OrderSummary ul {
+	list-style: none;
+}
+
+.OrderSummary li span {
+	text-transform: capitalize;
+}
