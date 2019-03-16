@@ -81,30 +81,40 @@ class BurgerBuilder extends React.Component {
 	}
 
 	purchaseContinueHandler = () => {
-		this.setState( {loading: true} )
-		const order = {
-			ingredients: this.state.ingredients,
-			price: this.state.totalPrice,
-			customer: {
-				name: 'Pepe Luis',
-				address: {
-					street: 'Calle Falsa 123',
-					zipcode: '234234',
-					country: 'Pepelandia'
-				},
-				email: 'test@test.com'
-			},
-			deliveryMethod: 'fastest'
+		const queryParams = []
+		for(let i in this.state.ingredients) {
+				queryParams.push(encodeURIComponent(i) + '='
+				+ encodeURIComponent(this.state.ingredients[i]))
 		}
-		axios.post('/orders.json', order)
-			.then(response => {
-				this.setState({ loading: false, purchasing: false })
-			})
-			.catch(error => {
-				console.log(error)
-				this.setState({ loading: false, purchasing: false })
-			})
-	}	
+
+		this.props.history.push({
+			pathname: '/checkout',
+			search: '?' + queryParams.join('&')
+		})
+		// this.setState( { loading: true } )
+		// const order = {
+		// 	ingredients: this.state.ingredients,
+		// 	price: this.state.totalPrice,
+		// 	customer: {
+		// 		name: 'Pepe Luis',
+		// 		address: {
+		// 			street: 'Calle Falsa 123',
+		// 			zipcode: '234234',
+		// 			country: 'Pepelandia'
+		// 		},
+		// 		email: 'test@test.com'
+		// 	},
+		// 	deliveryMethod: 'fastest'
+		// }
+		// axios.post('/orders.json', order)
+		// 	.then(response => {
+		// 		this.setState({ loading: false, purchasing: false })
+		// 	})
+		// 	.catch(error => {
+		// 		console.log(error)
+		// 		this.setState({ loading: false, purchasing: false })
+		// 	})
+	}
 
 	render() {
 		const disabledInfo = {
@@ -120,11 +130,11 @@ class BurgerBuilder extends React.Component {
 			burger = (
 				<>
 				<Burger ingredients={this.state.ingredients}/>
-				<BuildControls 
+				<BuildControls
 						price={this.state.totalPrice}
 						addIngredient={this.addIngredientHandler}
 						removeIngredient={this.removeIngredientHandler}
-						disabled={disabledInfo} 
+						disabled={disabledInfo}
 						purchasable={!this.state.purchasable}
 						ordered={this.purchaseHandler} />
 				</>
@@ -132,7 +142,7 @@ class BurgerBuilder extends React.Component {
 			orderSummary =	<OrderSummary ingredients={this.state.ingredients}
 				totalPrice={this.state.totalPrice.toFixed(2)}
 				purchaseCanceled={this.purchaseCancelHandler}
-				purchaseContinue={this.purchaseContinueHandler} />			
+				purchaseContinue={this.purchaseContinueHandler} />
 		}
 
 		if(this.state.loading) {
